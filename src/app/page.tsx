@@ -224,14 +224,14 @@ export default function App() {
 
       {/* ── HERO ── */}
       <section id="about" style={{ paddingTop: 68 }}>
-        <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "92vh" }}>
+        <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "92vh", gap: 0 }}>
 
           {/* Left: text */}
           <div style={{
             display: "flex", flexDirection: "column", justifyContent: "center",
             padding: "5rem 3.5rem 5rem 5rem",
             background: "#ffffff",
-          }}>
+          }} className="hero-left">
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 8,
               background: "rgba(99,40,210,0.08)", borderRadius: 100,
@@ -325,7 +325,8 @@ export default function App() {
             background: PURPLE,
             display: "flex", alignItems: "flex-end", justifyContent: "center",
             position: "relative", overflow: "hidden",
-          }}>
+            minHeight: "92vh",
+          }} className="hero-right">
             {/* Decorative rings */}
             <div style={{ position: "absolute", top: -100, right: -100, width: 380, height: 380, borderRadius: "50%", border: "2px solid rgba(255,155,56,0.15)" }} />
             <div style={{ position: "absolute", bottom: -80, left: -80, width: 300, height: 300, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.06)" }} />
@@ -337,6 +338,7 @@ export default function App() {
               alt="Olubunmi Ojo"
               style={{
                 width: "100%",
+                height: "100%",
                 objectFit: "cover", objectPosition: "top center",
                 position: "relative", zIndex: 1,
                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0))",
@@ -676,16 +678,23 @@ export default function App() {
       </footer>
 
       <style>{`
-        @media (max-width: 768px) {
-          .hero-grid { grid-template-columns: 1fr !important; }
-          .hero-grid > div:first-child { padding: 3rem 1.5rem !important; }
-          .hero-grid > div:last-child { min-height: 55vw; }
+        @media (max-width: 870px) {
+          .hero-grid { grid-template-columns: 1fr !important; minHeight: auto !important; }
+          .hero-left { padding: 3rem 1.5rem !important; }
+          .hero-right { min-height: 50vh !important; }
           .desktop-nav { display: none !important; }
           .hamburger { display: flex !important; }
           section { padding: 4rem 1.5rem !important; }
           footer { padding: 2rem 1.5rem !important; flex-direction: column; text-align: center; }
           .form-grid { grid-template-columns: 1fr !important; }
           .contact-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 600px) {
+          .hero-left { padding: 2rem 1rem !important; }
+          .hero-right { min-height: 45vh !important; }
+          h1 { font-size: 1.8rem !important; }
+          section { padding: 2.5rem 1rem !important; }
+          footer { padding: 1.5rem 1rem !important; }
         }
       `}</style>
     </div>
