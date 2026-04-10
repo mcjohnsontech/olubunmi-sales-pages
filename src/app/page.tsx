@@ -50,7 +50,10 @@ export default function App() {
 
   // REPLACE with your Google Calendar Appointment Schedule link
   // Go to calendar.google.com → New Appointment Schedule → copy the booking page URL
-  const GOOGLE_CAL_URL = "https://calendar.app.google/CJo7PLjLeQbZN7tY7";
+  const GOOGLE_CAL_URL = "https://calendar.app.google/8A5QjuLnYBXGeZoSA";
+  
+  // Paystack payment link
+  const PAYSTACK_URL = "https://paystack.shop/pay/scalemybusiness";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,10 +78,30 @@ export default function App() {
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setFormData((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormSubmitted(true);
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      
+      if (response.ok) {
+        console.log("Email sent successfully:", result);
+        setFormSubmitted(true);
+      } else {
+        console.error("Error sending email:", result.error);
+        alert("Error submitting form. Please try again.");
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      alert("Error submitting form. Please try again.");
+    }
   };
 
   const inputStyle: React.CSSProperties = {
@@ -199,7 +222,7 @@ export default function App() {
         <button onClick={() => setMenuOpen(!menuOpen)} className="hamburger" style={{
           display: "none", background: "none", border: "none",
           cursor: "pointer", fontSize: 24, color: PURPLE,
-        }}>☰ Menu</button>
+        }}>☰</button>
       </nav>
 
       {/* Mobile menu */}
@@ -221,6 +244,35 @@ export default function App() {
           }}>Book a Free Call</button>
         </div>
       )}
+
+      {/* ── FLOATING WHATSAPP BUTTON ── */}
+      <a href="https://wa.me/2347088737006" target="_blank" rel="noreferrer" style={{
+        position: "fixed", bottom: 24, right: 24, zIndex: 50,
+        width: 56, height: 56, borderRadius: "50%",
+        background: "#25D366", display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: "0 4px 20px rgba(37,211,102,0.4)",
+        transition: "all 0.3s",
+        textDecoration: "none",
+      }}
+        onMouseEnter={(e) => {
+          const target = e.currentTarget as HTMLElement;
+          target.style.transform = "scale(1.1)";
+          target.style.boxShadow = "0 8px 32px rgba(37,211,102,0.6)";
+        }}
+        onMouseLeave={(e) => {
+          const target = e.currentTarget as HTMLElement;
+          target.style.transform = "scale(1)";
+          target.style.boxShadow = "0 4px 20px rgba(37,211,102,0.4)";
+        }}
+        title="Chat with us on WhatsApp">
+        <svg width="32" height="32" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Main Circle Background */}
+          <circle cx="256" cy="256" r="240" fill="#25D366"/>
+          {/* Bubble and Icon Path */}
+          <path d="M256.064 88C163.392 88 88 163.392 88 256.064C88 285.696 95.744 314.112 110.464 338.944L88.512 419.2L170.624 397.696C194.816 410.88 221.952 417.792 250.112 417.792C252.096 417.792 254.08 417.728 256.064 417.728C348.736 417.728 424.128 342.336 424.128 249.664C424.128 160.448 348.736 88 256.064 88ZM350.592 316.416C346.56 327.808 327.424 337.024 317.824 338.944C308.224 340.864 295.808 342.144 256.448 325.76C206.144 304.832 173.696 253.568 171.2 250.24C168.704 246.912 150.336 222.464 150.336 197.12C150.336 171.776 163.264 159.488 168.64 153.984C173.952 148.48 180.224 147.2 185.664 147.2C188.352 147.2 190.72 147.328 192.704 147.456C198.592 147.712 201.536 148.096 205.376 157.312C210.24 169.088 222.144 198.144 223.552 201.088C224.96 204.032 226.368 208 224.448 211.84C222.528 215.68 220.928 217.6 217.984 221.056C215.04 224.512 212.416 227.328 209.472 230.912C206.848 233.984 203.904 237.184 207.168 242.816C210.432 248.32 221.696 266.624 238.144 281.344C259.328 300.288 276.544 306.432 282.688 308.992C288.832 311.552 292.48 311.04 295.936 307.072C299.392 303.104 310.656 289.92 314.752 284.16C318.848 278.4 322.944 279.424 328.32 281.472C333.76 283.52 362.816 297.856 368.704 300.8C374.592 303.744 378.496 305.152 379.904 307.584C381.312 310.016 381.312 315.52 377.216 326.912L350.592 316.416Z" fill="white"/>
+        </svg>
+
+      </a>
 
       {/* ── HERO ── */}
       <section id="about" style={{ paddingTop: 68 }}>
@@ -288,9 +340,28 @@ export default function App() {
                   target.style.transform = "translateY(0)";
                   target.style.boxShadow = "0 8px 28px rgba(255,155,56,0.4)";
                 }}>
-                Book a Free Strategy Call →
+                Book a Free Clarity Call →
               </button>
-              <button onClick={() => scrollTo("Program")} style={{
+              <button onClick={() => window.open(PAYSTACK_URL, '_blank')} style={{
+                background: PURPLE, color: WHITE, border: "none", borderRadius: 12,
+                padding: "15px 30px", fontSize: 15, cursor: "pointer",
+                fontWeight: 700, fontFamily: "sans-serif",
+                boxShadow: "0 8px 28px rgba(99,40,210,0.3)",
+                transition: "transform 0.2s, box-shadow 0.2s",
+              }}
+                onMouseEnter={(e) => {
+                  const target = e.target as HTMLElement;
+                  target.style.transform = "translateY(-2px)";
+                  target.style.boxShadow = "0 14px 36px rgba(99,40,210,0.4)";
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.target as HTMLElement;
+                  target.style.transform = "translateY(0)";
+                  target.style.boxShadow = "0 8px 28px rgba(99,40,210,0.3)";
+                }}>
+                Pay Now (₦30,000) →
+              </button>
+              {/* <button style={{
                 background: "none", color: PURPLE, border: `2px solid ${PURPLE}`,
                 borderRadius: 12, padding: "15px 28px", fontSize: 15,
                 cursor: "pointer", fontFamily: "sans-serif",
@@ -307,7 +378,7 @@ export default function App() {
                   target.style.color = PURPLE;
                 }}>
                 See the Program
-              </button>
+              </button> */}
             </div>
 
             <div style={{ display: "flex", gap: "2.5rem", marginTop: "2.5rem" }}>
@@ -321,9 +392,10 @@ export default function App() {
           </div>
 
           {/* Right: photo panel */}
-          <div style={{
+          <div style={{display: "flex", alignSelf: "center", justifyContent: "center", height: "80%"}}>
+            <div style={{
             background: PURPLE,
-            display: "flex", alignItems: "flex-end", justifyContent: "center",
+            display: "flex", alignItems: "center", justifyContent: "center",
             position: "relative", overflow: "hidden",
             minHeight: "92vh",
           }} className="hero-right">
@@ -367,6 +439,8 @@ export default function App() {
               <p style={{ margin: 0, fontSize: 13, color: WHITE, fontWeight: 700, fontFamily: "sans-serif" }}>Limited Slots Left!</p>
             </div>
           </div>
+          </div>
+          
         </div>
       </section>
 
@@ -429,8 +503,23 @@ export default function App() {
               const target = e.target as HTMLElement;
               target.style.opacity = "1";
             }}>
-              Apply for the Program →
+              Book a Free Clarity Call →
             </button>
+            <button onClick={() => window.open(PAYSTACK_URL, '_blank')} style={{
+              background: ORANGE, color: WHITE, border: "none", borderRadius: 12,
+              padding: "16px 36px", fontSize: 16, cursor: "pointer", fontWeight: 700,
+              fontFamily: "sans-serif", boxShadow: "0 8px 28px rgba(255,155,56,0.3)",
+              transition: "opacity 0.2s",
+            }} onMouseEnter={(e) => {
+              const target = e.target as HTMLElement;
+              target.style.opacity = "0.85";
+            }} onMouseLeave={(e) => {
+              const target = e.target as HTMLElement;
+              target.style.opacity = "1";
+            }}>
+              Pay Now ₦30K  →
+            </button>
+            
             <div style={{ background: `rgba(99,40,210,0.06)`, borderRadius: 10, padding: "12px 20px", fontFamily: "sans-serif" }}>
               <span style={{ fontSize: 20, fontWeight: 700, color: PURPLE }}>₦30,000</span>
               <span style={{ fontSize: 13, color: "#888", marginLeft: 8 }}>for 3 weeks</span>
@@ -478,7 +567,7 @@ export default function App() {
           <p style={{ color: PURPLE, fontWeight: 700, letterSpacing: 2, fontSize: 11, fontFamily: "sans-serif", marginBottom: "0.5rem" }}>ENROLL</p>
           <h2 style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", margin: "0 0 0.75rem", fontWeight: 400 }}>Ready to get started?</h2>
           <p style={{ color: "#666", fontSize: 15, lineHeight: 1.8, marginBottom: "2rem", fontFamily: "sans-serif" }}>
-            Fill in your details &mdash; whether you&rsquo;ve paid already or are about to. We&rsquo;ll reach out within 24 hours to set up your onboarding. You can also send a DM to <strong style={{ color: PURPLE }}>0708 873 7006</strong>.
+            Fill in your details &mdash; whether you&rsquo;ve paid already or are about to. We&rsquo;ll reach out within 24 hours to set up your onboarding. You can also send a DM to <strong style={{ color: PURPLE }}>0708 873 7006</strong>. Or <button onClick={() => window.open(PAYSTACK_URL, '_blank')} style={{ background: "none", border: "none", color: ORANGE, cursor: "pointer", fontWeight: 700, textDecoration: "underline" }}>pay now via Paystack</button>.
           </p>
 
           {formSubmitted ? (
@@ -490,13 +579,20 @@ export default function App() {
               <div style={{ fontSize: 52, marginBottom: "1rem" }}>🎉</div>
               <h3 style={{ color: PURPLE, fontSize: 24, margin: "0 0 0.5rem", fontWeight: 400 }}>You&rsquo;re in!</h3>
               <p style={{ color: "#555", fontFamily: "sans-serif", fontSize: 15, lineHeight: 1.8, marginBottom: "1.5rem" }}>
-                Thanks! Olubunmi will reach out within 24 hours. In the meantime, book your strategy call below.
+                Thanks! Olubunmi will reach out within 24 hours. In the meantime, you can proceed with payment or book your strategy call.
               </p>
-              <button onClick={() => setCalendarOpen(true)} style={{
-                background: ORANGE, color: WHITE, border: "none", borderRadius: 12,
-                padding: "14px 32px", fontSize: 15, cursor: "pointer",
-                fontWeight: 700, fontFamily: "sans-serif",
-              }}>Book Your Strategy Call →</button>
+              <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+                <button onClick={() => window.open(PAYSTACK_URL, '_blank')} style={{
+                  background: ORANGE, color: WHITE, border: "none", borderRadius: 12,
+                  padding: "14px 32px", fontSize: 15, cursor: "pointer",
+                  fontWeight: 700, fontFamily: "sans-serif",
+                }}>Pay Now (₦30K) →</button>
+                <button onClick={() => setCalendarOpen(true)} style={{
+                  background: PURPLE, color: WHITE, border: "none", borderRadius: 12,
+                  padding: "14px 32px", fontSize: 15, cursor: "pointer",
+                  fontWeight: 700, fontFamily: "sans-serif",
+                }}>Book Your Strategy Call →</button>
+              </div>
             </div>
           ) : (
             <div style={{ background: WHITE, borderRadius: 22, padding: "2.5rem", border: "1px solid rgba(99,40,210,0.1)", boxShadow: "0 4px 30px rgba(99,40,210,0.06)" }}>
@@ -622,32 +718,60 @@ export default function App() {
             background: PURPLE,
             borderRadius: 24, padding: "2.5rem", color: WHITE, textAlign: "center",
           }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={CLOSE_PHOTO} alt="Olubunmi Ojo" style={{
-              width: 80, height: 80, borderRadius: "50%",
-              objectFit: "cover", objectPosition: "top",
-              border: `3px solid ${ORANGE}`, marginBottom: "1.25rem",
-            }} />
-            <h3 style={{ fontSize: 22, margin: "0 0 0.75rem", fontWeight: 400 }}>Free Strategy Session</h3>
-            <p style={{ fontSize: 14, opacity: 0.8, lineHeight: 1.8, marginBottom: "1.75rem", fontFamily: "sans-serif" }}>
-              30 minutes. No pitch. Just a genuine look at your business and what&rsquo;s holding your growth back.
-            </p>
-            <button onClick={() => setCalendarOpen(true)} style={{
-              background: ORANGE, color: WHITE, border: "none", borderRadius: 12,
-              padding: "14px", fontSize: 15, cursor: "pointer", fontWeight: 700,
-              fontFamily: "sans-serif", width: "100%",
-              boxShadow: "0 8px 24px rgba(255,155,56,0.45)",
-              transition: "opacity 0.2s",
-            }} onMouseEnter={(e) => {
-              const target = e.target as HTMLElement;
-              target.style.opacity = "0.85";
-            }} onMouseLeave={(e) => {
-              const target = e.target as HTMLElement;
-              target.style.opacity = "1";
-            }}>
-              Book Your Free Call →
-            </button>
-            <p style={{ fontSize: 11, opacity: 0.5, marginTop: "0.75rem", fontFamily: "sans-serif" }}>Pick any available time that works for you</p>
+            <div style={{ marginBottom: "1.5rem" }}>
+              <p style={{ fontSize: 36, margin: "0 0 0.75rem", fontFamily: "sans-serif" }}>💳</p>
+              <h3 style={{ fontSize: 22, margin: "0 0 0.75rem", fontWeight: 400 }}>Ready to Enroll?</h3>
+              <p style={{ fontSize: 14, opacity: 0.8, lineHeight: 1.8, marginBottom: "1.75rem", fontFamily: "sans-serif" }}>
+                Pay ₦30,000 and secure your spot in the next cohort. 3 weeks to transform your business.
+              </p>
+              <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 12, padding: "12px", marginBottom: "1rem" }}>
+                <p style={{ fontSize: 28, fontWeight: 700, margin: "0.5rem 0", fontFamily: "sans-serif" }}>₦30,000</p>
+                <p style={{ fontSize: 12, opacity: 0.7, margin: 0, fontFamily: "sans-serif" }}>Limited slots available</p>
+              </div>
+              <button onClick={() => window.open(PAYSTACK_URL, '_blank')} style={{
+                background: ORANGE, color: WHITE, border: "none", borderRadius: 12,
+                padding: "14px", fontSize: 15, cursor: "pointer", fontWeight: 700,
+                fontFamily: "sans-serif", width: "100%",
+                boxShadow: "0 8px 24px rgba(255,155,56,0.45)",
+                transition: "opacity 0.2s",
+              }} onMouseEnter={(e) => {
+                const target = e.target as HTMLElement;
+                target.style.opacity = "0.85";
+              }} onMouseLeave={(e) => {
+                const target = e.target as HTMLElement;
+                target.style.opacity = "1";
+              }}>
+                Pay Now via Paystack →
+              </button>
+            </div>
+
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: "1.5rem", marginTop: "1.5rem" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={CLOSE_PHOTO} alt="Olubunmi Ojo" style={{
+                width: 80, height: 80, borderRadius: "50%",
+                objectFit: "cover", objectPosition: "top",
+                border: `3px solid ${ORANGE}`, marginBottom: "1.25rem",
+              }} />
+              <h3 style={{ fontSize: 22, margin: "0 0 0.75rem", fontWeight: 400 }}>Free Strategy Session</h3>
+              <p style={{ fontSize: 14, opacity: 0.8, lineHeight: 1.8, marginBottom: "1.75rem", fontFamily: "sans-serif" }}>
+                30 minutes. No pitch. Just a genuine look at your business and what&rsquo;s holding your growth back.
+              </p>
+              <button onClick={() => setCalendarOpen(true)} style={{
+                background: "rgba(255,255,255,0.2)", color: WHITE, border: "none", borderRadius: 12,
+                padding: "14px", fontSize: 15, cursor: "pointer", fontWeight: 700,
+                fontFamily: "sans-serif", width: "100%",
+                transition: "opacity 0.2s",
+              }} onMouseEnter={(e) => {
+                const target = e.target as HTMLElement;
+                target.style.opacity = "0.85";
+              }} onMouseLeave={(e) => {
+                const target = e.target as HTMLElement;
+                target.style.opacity = "1";
+              }}>
+                Book Your Free Call →
+              </button>
+              <p style={{ fontSize: 11, opacity: 0.5, marginTop: "0.75rem", fontFamily: "sans-serif" }}>Pick any available time that works for you</p>
+            </div>
           </div>
         </div>
       </section>
@@ -671,10 +795,16 @@ export default function App() {
         <p style={{ fontSize: 12, color: "#555", margin: 0, fontFamily: "sans-serif" }}>
           © {new Date().getFullYear()} Olubunmi Ojo · Dayari.ng
         </p>
-        <button onClick={() => setCalendarOpen(true)} style={{
-          background: "none", color: ORANGE, border: `1px solid ${ORANGE}`,
-          borderRadius: 8, padding: "8px 20px", fontSize: 13, cursor: "pointer", fontFamily: "sans-serif",
-        }}>Book a Call</button>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <button onClick={() => window.open(PAYSTACK_URL, '_blank')} style={{
+            background: ORANGE, color: "#080808", border: "none",
+            borderRadius: 8, padding: "8px 20px", fontSize: 13, cursor: "pointer", fontFamily: "sans-serif", fontWeight: 700,
+          }}>Pay Now</button>
+          <button onClick={() => setCalendarOpen(true)} style={{
+            background: "none", color: ORANGE, border: `1px solid ${ORANGE}`,
+            borderRadius: 8, padding: "8px 20px", fontSize: 13, cursor: "pointer", fontFamily: "sans-serif",
+          }}>Book a Call</button>
+        </div>
       </footer>
 
       <style>{`
