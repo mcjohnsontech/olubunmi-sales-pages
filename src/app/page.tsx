@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import { TargetIcon, MegaphoneIcon, PhoneIcon, BarChartIcon, ChatBubbleIcon, CameraIcon, GlobeIcon, GiftIcon } from "../components/icons";
+import { TargetIcon, MegaphoneIcon, PhoneIcon, BarChartIcon, ChatBubbleIcon, CameraIcon, GlobeIcon, GiftIcon, FireIcon, CreditCardIcon, CheckCircleIcon } from "../components/icons";
 import { IconRenderer } from "../components/icon-renderer";
 
 const ORANGE = "rgb(255,155,56)";
@@ -33,20 +33,16 @@ const TESTIMONIALS = [
 ];
 
 const PROGRAM_POINTS = [
-  { icon: "🎯", title: "Build a Profitable Business", desc: "Identify and validate business ideas that sell. Learn how Dayari.ng started with just ₦30,000." },
-  { icon: "📣", title: "Create Offers People Buy", desc: "Structure irresistible offers and get consistent customers via Instagram and WhatsApp." },
-  { icon: "📱", title: "Social & Paid Ads Mastery", desc: "Run Facebook, Instagram and TikTok ads the right way — without burning money." },
-  { icon: "📊", title: "Structure for Growth", desc: "Build systems that scale your business predictably month after month." },
+  { icon: TargetIcon, title: "Build a Profitable Business", desc: "Identify and validate business ideas that sell. Learn how Dayari.ng started with just ₦30,000." },
+  { icon: MegaphoneIcon, title: "Create Offers People Buy", desc: "Structure irresistible offers and get consistent customers via Instagram and WhatsApp." },
+  { icon: PhoneIcon, title: "Social & Paid Ads Mastery", desc: "Run Facebook, Instagram and TikTok ads the right way — without burning money." },
+  { icon: BarChartIcon, title: "Structure for Growth", desc: "Build systems that scale your business predictably month after month." },
 ];
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const [activeSection, setActiveSection] = useState("About");
-  const [formData, setFormData] = useState({
-    fullName: "", email: "", phone: "", business: "", stage: "", message: "", paymentStatus: "before",
-  });
 
   // REPLACE with your Google Calendar Appointment Schedule link
   // Go to calendar.google.com → New Appointment Schedule → copy the booking page URL
@@ -76,40 +72,7 @@ export default function App() {
     setMenuOpen(false);
   };
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setFormData((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-      
-      if (response.ok) {
-        console.log("Email sent successfully:", result);
-        setFormSubmitted(true);
-      } else {
-        console.error("Error sending email:", result.error);
-        alert("Error submitting form. Please try again.");
-      }
-    } catch (error) {
-      console.error("Form submission error:", error);
-      alert("Error submitting form. Please try again.");
-    }
-  };
-
-  const inputStyle: React.CSSProperties = {
-    width: "100%", padding: "10px 14px", borderRadius: 8,
-    border: "1.5px solid rgba(99,40,210,0.2)", fontSize: 14,
-    fontFamily: "sans-serif", outline: "none", boxSizing: "border-box" as const,
-    background: WHITE, transition: "border-color 0.2s",
-  };
 
   return (
     <div style={{ fontFamily: "Georgia, serif", background: WHITE, color: "#1a1a1a", overflowX: "hidden" }}>
@@ -316,7 +279,7 @@ export default function App() {
               borderRadius: 10, padding: "10px 16px", marginBottom: "2rem",
               display: "inline-flex", alignItems: "center", gap: 10, width: "fit-content",
             }}>
-              <span style={{ fontSize: 16 }}>🔥</span>
+              <FireIcon size={20} color="#a04000" />
               <span style={{ fontSize: 13, fontFamily: "sans-serif", color: "#a04000", fontWeight: 600 }}>
                 Scale My Business — 3 Weeks · ₦30,000 · Limited Slots
               </span>
@@ -456,7 +419,9 @@ export default function App() {
           </p>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem", marginBottom: "2.5rem" }}>
-            {PROGRAM_POINTS.map((p) => (
+            {PROGRAM_POINTS.map((p) => {
+              const IconComponent = p.icon;
+              return (
               <div key={p.title} style={{
                 background: WHITE, borderRadius: 18, padding: "2rem",
                 border: "1px solid rgba(99,40,210,0.1)",
@@ -466,12 +431,13 @@ export default function App() {
                 onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-5px)"; e.currentTarget.style.boxShadow = "0 16px 40px rgba(99,40,210,0.1)"; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
                 <div style={{ marginBottom: "0.75rem" }}>
-                  <IconRenderer emoji={p.icon} size={30} color={PURPLE} />
+                  <IconComponent size={30} color={PURPLE} />
                 </div>
                 <h3 style={{ fontSize: 15, fontWeight: 700, margin: "0 0 0.5rem", color: PURPLE, fontFamily: "sans-serif" }}>{p.title}</h3>
                 <p style={{ fontSize: 13.5, color: "#666", margin: 0, lineHeight: 1.7, fontFamily: "sans-serif" }}>{p.desc}</p>
               </div>
-            ))}
+            );
+            })}
           </div>
 
           {/* Bonus pill */}
@@ -482,7 +448,7 @@ export default function App() {
             display: "flex", alignItems: "center", gap: 14,
           }}>
             <div style={{ display: "flex" }}>
-              <IconRenderer emoji="🎁" size={28} color={ORANGE} />
+              <GiftIcon size={28} color={ORANGE} />
             </div>
             <div>
               <p style={{ margin: 0, fontWeight: 700, fontSize: 14, color: "#1a1a1a", fontFamily: "sans-serif" }}>Bonus Included</p>
@@ -561,125 +527,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── ENROLLMENT FORM ── */}
-      <section style={{ padding: "6rem 5rem", background: "#ffffff" }}>
-        <div style={{ maxWidth: 680, margin: "0 auto" }}>
-          <p style={{ color: PURPLE, fontWeight: 700, letterSpacing: 2, fontSize: 11, fontFamily: "sans-serif", marginBottom: "0.5rem" }}>ENROLL</p>
-          <h2 style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", margin: "0 0 0.75rem", fontWeight: 400 }}>Ready to get started?</h2>
-          <p style={{ color: "#666", fontSize: 15, lineHeight: 1.8, marginBottom: "2rem", fontFamily: "sans-serif" }}>
-            Fill in your details &mdash; whether you&rsquo;ve paid already or are about to. We&rsquo;ll reach out within 24 hours to set up your onboarding. You can also send a DM to <strong style={{ color: PURPLE }}>0708 873 7006</strong>. Or <button onClick={() => window.open(PAYSTACK_URL, '_blank')} style={{ background: "none", border: "none", color: ORANGE, cursor: "pointer", fontWeight: 700, textDecoration: "underline" }}>pay now via Paystack</button>.
-          </p>
 
-          {formSubmitted ? (
-            <div style={{
-              background: "rgba(99,40,210,0.05)", borderRadius: 20,
-              border: `2px solid ${PURPLE}`, padding: "3rem",
-              textAlign: "center",
-            }}>
-              <div style={{ fontSize: 52, marginBottom: "1rem" }}>🎉</div>
-              <h3 style={{ color: PURPLE, fontSize: 24, margin: "0 0 0.5rem", fontWeight: 400 }}>You&rsquo;re in!</h3>
-              <p style={{ color: "#555", fontFamily: "sans-serif", fontSize: 15, lineHeight: 1.8, marginBottom: "1.5rem" }}>
-                Thanks! Olubunmi will reach out within 24 hours. In the meantime, you can proceed with payment or book your strategy call.
-              </p>
-              <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-                <button onClick={() => window.open(PAYSTACK_URL, '_blank')} style={{
-                  background: ORANGE, color: WHITE, border: "none", borderRadius: 12,
-                  padding: "14px 32px", fontSize: 15, cursor: "pointer",
-                  fontWeight: 700, fontFamily: "sans-serif",
-                }}>Pay Now (₦30K) →</button>
-                <button onClick={() => setCalendarOpen(true)} style={{
-                  background: PURPLE, color: WHITE, border: "none", borderRadius: 12,
-                  padding: "14px 32px", fontSize: 15, cursor: "pointer",
-                  fontWeight: 700, fontFamily: "sans-serif",
-                }}>Book Your Strategy Call →</button>
-              </div>
-            </div>
-          ) : (
-            <div style={{ background: WHITE, borderRadius: 22, padding: "2.5rem", border: "1px solid rgba(99,40,210,0.1)", boxShadow: "0 4px 30px rgba(99,40,210,0.06)" }}>
-              <div className="form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                {[
-                  { label: "Full Name *", name: "fullName", type: "text", placeholder: "Your full name" },
-                  { label: "Email Address *", name: "email", type: "email", placeholder: "you@example.com" },
-                  { label: "Phone / WhatsApp", name: "phone", type: "text", placeholder: "+234 800 000 0000" },
-                  { label: "Business Name", name: "business", type: "text", placeholder: "Your business" },
-                ].map((f) => (
-                  <div key={f.name}>
-                    <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#555", marginBottom: 6, fontFamily: "sans-serif", letterSpacing: 0.8 }}>{f.label}</label>
-                    <input name={f.name} type={f.type} placeholder={f.placeholder}
-                      value={formData[f.name as keyof typeof formData]} onChange={handleFormChange} style={inputStyle}
-                      onFocus={e => e.target.style.borderColor = PURPLE}
-                      onBlur={e => e.target.style.borderColor = "rgba(99,40,210,0.2)"} />
-                  </div>
-                ))}
-              </div>
-
-              <div style={{ marginTop: "1rem" }}>
-                <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#555", marginBottom: 6, fontFamily: "sans-serif", letterSpacing: 0.8 }}>Business Stage</label>
-                <select name="stage" value={formData.stage} onChange={handleFormChange}
-                  style={{ ...inputStyle, cursor: "pointer" }}
-                  onFocus={e => e.target.style.borderColor = PURPLE}
-                  onBlur={e => e.target.style.borderColor = "rgba(99,40,210,0.2)"}>
-                  <option value="">Select your stage</option>
-                  <option>Just starting out</option>
-                  <option>Getting first clients</option>
-                  <option>Scaling past 6 figures</option>
-                  <option>Established, optimizing growth</option>
-                </select>
-              </div>
-
-              <div style={{ marginTop: "1rem" }}>
-                <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#555", marginBottom: 8, fontFamily: "sans-serif", letterSpacing: 0.8 }}>Payment Status</label>
-                <div style={{ display: "flex", gap: "1.5rem" }}>
-                  {[["before", "I haven't paid yet"], ["after", "I've already paid"]].map(([val, label]) => (
-                    <label key={val} style={{
-                      display: "flex", alignItems: "center", gap: 8, cursor: "pointer",
-                      fontSize: 14, fontFamily: "sans-serif",
-                      color: formData.paymentStatus === val ? PURPLE : "#666",
-                      fontWeight: formData.paymentStatus === val ? 700 : 400,
-                    }}>
-                      <input type="radio" name="paymentStatus" value={val}
-                        checked={formData.paymentStatus === val} onChange={handleFormChange}
-                        style={{ accentColor: PURPLE }} />
-                      {label}
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div style={{ marginTop: "1rem" }}>
-                <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#555", marginBottom: 6, fontFamily: "sans-serif", letterSpacing: 0.8 }}>Anything you&rsquo;d like us to know?</label>
-                <textarea name="message" placeholder="Goals, questions, challenges…" rows={3}
-                  value={formData.message} onChange={handleFormChange}
-                  style={{ ...inputStyle, resize: "vertical" }}
-                  onFocus={(e) => {
-                    const target = e.target as HTMLTextAreaElement;
-                    target.style.borderColor = PURPLE;
-                  }}
-                  onBlur={(e) => {
-                    const target = e.target as HTMLTextAreaElement;
-                    target.style.borderColor = "rgba(99,40,210,0.2)";
-                  }} />
-              </div>
-
-              <button type="submit" onClick={(e) => handleFormSubmit(e as unknown as React.FormEvent<HTMLFormElement>)} style={{
-                marginTop: "1.5rem", width: "100%",
-                background: PURPLE,
-                color: WHITE, border: "none", borderRadius: 12, padding: "15px",
-                fontSize: 16, cursor: "pointer", fontWeight: 700, fontFamily: "sans-serif",
-                boxShadow: "0 8px 28px rgba(99,40,210,0.3)", transition: "opacity 0.2s",
-              }} onMouseEnter={(e) => {
-                const target = e.target as HTMLElement;
-                target.style.opacity = "0.88";
-              }} onMouseLeave={(e) => {
-                const target = e.target as HTMLElement;
-                target.style.opacity = "1";
-              }}>
-                Submit My Details →
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
 
       {/* ── CONTACT ── */}
       <section id="contact" style={{ padding: "6rem 5rem", background: WHITE }}>
@@ -691,10 +539,12 @@ export default function App() {
               Questions before booking? Reach out directly — Olubunmi personally responds to every message.
             </p>
             {[
-              { icon: "💬", label: "WhatsApp / DM", value: "0708 873 7006", href: "https://wa.me/2347088737006" },
-              { icon: "📸", label: "Instagram", value: "@dayari.ng", href: "https://instagram.com/dayari.ng" },
-              { icon: "🌐", label: "Website", value: "dayari.ng", href: "https://dayari.ng" },
-            ].map((c) => (
+              { icon: ChatBubbleIcon, label: "WhatsApp / DM", value: "0708 873 7006", href: "https://wa.me/2347088737006" },
+              { icon: CameraIcon, label: "Instagram", value: "@dayari.ng", href: "https://instagram.com/dayari.ng" },
+              { icon: GlobeIcon, label: "Website", value: "dayari.ng", href: "https://dayari.ng" },
+            ].map((c) => {
+              const IconComponent = c.icon;
+              return (
               <a key={c.label} href={c.href} target="_blank" rel="noreferrer" style={{
                 display: "flex", alignItems: "center", gap: 14, textDecoration: "none",
                 color: "#333", marginBottom: "1rem", padding: "12px 18px",
@@ -704,14 +554,15 @@ export default function App() {
                 onMouseEnter={e => { e.currentTarget.style.borderColor = ORANGE; e.currentTarget.style.background = "rgba(255,155,56,0.04)"; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(99,40,210,0.1)"; e.currentTarget.style.background = "none"; }}>
                 <div style={{ display: "flex" }}>
-                  <IconRenderer emoji={c.icon} size={22} color={PURPLE} />
+                  <IconComponent size={22} color={PURPLE} />
                 </div>
                 <div>
                   <p style={{ margin: 0, fontSize: 10, color: "#bbb", letterSpacing: 0.8, fontFamily: "sans-serif" }}>{c.label}</p>
                   <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: PURPLE }}>{c.value}</p>
                 </div>
               </a>
-            ))}
+            );
+            })}
           </div>
 
           <div style={{
@@ -719,7 +570,9 @@ export default function App() {
             borderRadius: 24, padding: "2.5rem", color: WHITE, textAlign: "center",
           }}>
             <div style={{ marginBottom: "1.5rem" }}>
-              <p style={{ fontSize: 36, margin: "0 0 0.75rem", fontFamily: "sans-serif" }}>💳</p>
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: "0.75rem" }}>
+                <CreditCardIcon size={36} color={WHITE} />
+              </div>
               <h3 style={{ fontSize: 22, margin: "0 0 0.75rem", fontWeight: 400 }}>Ready to Enroll?</h3>
               <p style={{ fontSize: 14, opacity: 0.8, lineHeight: 1.8, marginBottom: "1.75rem", fontFamily: "sans-serif" }}>
                 Pay ₦30,000 and secure your spot in the next cohort. 3 weeks to transform your business.

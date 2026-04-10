@@ -68,6 +68,28 @@ export const GiftIcon: React.FC<IconProps> = ({ size = 24, color = defaultColor 
   </svg>
 );
 
+export const FireIcon: React.FC<IconProps> = ({ size = 24, color = defaultColor }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C12 2 7 11 7 15c0 2.76 2.24 5 5 5s5-2.24 5-5c0-4-5-13-5-13z" stroke={color} strokeWidth="2" fill="none"/>
+    <path d="M11 8C10 10 9 13 9 15c0 1.66 1.34 3 3 3s3-1.34 3-3c0-2-1-5-2-7" stroke={color} strokeWidth="1.5" fill="none"/>
+  </svg>
+);
+
+export const CreditCardIcon: React.FC<IconProps> = ({ size = 24, color = defaultColor }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="2" y="4" width="20" height="16" rx="2" stroke={color} strokeWidth="2" fill="none"/>
+    <line x1="2" y1="10" x2="22" y2="10" stroke={color} strokeWidth="2"/>
+    <rect x="4" y="14" width="4" height="2" fill={color}/>
+  </svg>
+);
+
+export const CheckCircleIcon: React.FC<IconProps> = ({ size = 24, color = defaultColor }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="10" stroke={color} strokeWidth="2"/>
+    <path d="M8 12l2 2 4-4" stroke={color} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
 // Helper function to get icon by emoji or name
 export const getIconComponent = (iconName: string, size: number = 24, color?: string) => {
   const props = { size, color };
@@ -97,6 +119,15 @@ export const getIconComponent = (iconName: string, size: number = 24, color?: st
     case '🎁':
     case 'gift':
       return GiftIcon(props);
+    case '🔥':
+    case 'fire':
+      return FireIcon(props);
+    case '💳':
+    case 'card':
+      return CreditCardIcon(props);
+    case '🎉':
+    case 'success':
+      return CheckCircleIcon(props);
     default:
       return null;
   }
