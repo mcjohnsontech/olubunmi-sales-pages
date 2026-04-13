@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { TargetIcon, MegaphoneIcon, PhoneIcon, BarChartIcon, ChatBubbleIcon, CameraIcon, GlobeIcon, GiftIcon, FireIcon, CreditCardIcon, CheckCircleIcon } from "../components/icons";
 import { IconRenderer } from "../components/icon-renderer";
+import { StructuredData, OrganizationSchema } from "../components/structured-data";
 
 const ORANGE = "rgb(255,155,56)";
 const PURPLE = "rgb(99,40,210)";
@@ -75,7 +76,10 @@ export default function App() {
 
 
   return (
-    <div style={{ fontFamily: "Georgia, serif", background: WHITE, color: "#1a1a1a", overflowX: "hidden" }}>
+    <>
+      <StructuredData />
+      <OrganizationSchema />
+      <div style={{ fontFamily: "Georgia, serif", background: WHITE, color: "#1a1a1a", overflowX: "hidden" }}>
 
       {/* ── GOOGLE CALENDAR MODAL ── */}
       {calendarOpen && (
@@ -680,6 +684,7 @@ export default function App() {
           footer { padding: 1.5rem 1rem !important; }
         }
       `}</style>
-    </div>
+      </div>
+    </>
   );
 }

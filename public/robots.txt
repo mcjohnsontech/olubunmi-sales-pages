@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+Allow: /api/og
+
+Disallow: /_next
+Disallow: /admin
+
+# Crawl delay (in seconds)
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://dayari.ng/sitemap.xml
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Allow all bots to access static assets
+User-agent: *
+Allow: *.css
+Allow: *.js
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.png
+Allow: *.gif
+Allow: *.svg

@@ -1,0 +1,48 @@
+{
+  "name": "Scale My Business - Olubunmi Ojo",
+  "short_name": "CEO, Dayari.ng",
+  "description": "Transform your business from zero to consistent orders in 3 weeks with Olubunmi Ojo. Learn proven strategies to build a profitable business, create irresistible offers, and master social & paid ads.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#632AC2",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["business", "education"],
+  "screenshots": [
+    {
+      "src": "/api/og",
+      "sizes": "1200x630",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book a Call",
+      "short_name": "Book Call",
+      "description": "Schedule a free 30-minute strategy session",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
