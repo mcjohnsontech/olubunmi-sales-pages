@@ -9,7 +9,7 @@ Disallow: /admin
 Crawl-delay: 1
 
 # Sitemap
-Sitemap: https://dayari.ng/sitemap.xml
+Sitemap: https://olubunmiojo.com/sitemap.xml
 
 # Google specific
 User-agent: Googlebot

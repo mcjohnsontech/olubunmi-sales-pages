@@ -545,7 +545,7 @@ export default function App() {
             {[
               { icon: ChatBubbleIcon, label: "WhatsApp / DM", value: "0708 873 7006", href: "https://wa.me/2347088737006" },
               { icon: CameraIcon, label: "Instagram", value: "@dayari.ng", href: "https://instagram.com/dayari.ng" },
-              { icon: GlobeIcon, label: "Website", value: "dayari.ng", href: "https://dayari.ng" },
+              { icon: GlobeIcon, label: "Website", value: "olubunmiojo.com", href: "https://olubunmiojo.com" },
             ].map((c) => {
               const IconComponent = c.icon;
               return (

@@ -6,12 +6,11 @@ export function StructuredData() {
     '@type': 'Course',
     'name': 'Scale My Business - 3-Week Intensive',
     'description': 'Transform your business from zero to consistent orders in 3 weeks. Learn business strategy, sales, and digital marketing.',
-    'url': 'https://dayari.ng',
-    'image': 'https://dayari.ng/api/og',
+    'url': 'https://olubunmiojo.com',
     'author': {
       '@type': 'Person',
       'name': 'Olubunmi Ojo',
-      'url': 'https://dayari.ng',
+      'url': 'https://olubunmiojo.com',
       'sameAs': [
         'https://instagram.com/dayari.ng',
         'https://wa.me/2347088737006'
@@ -19,8 +18,8 @@ export function StructuredData() {
     },
     'provider': {
       '@type': 'Organization',
-      'name': 'Dayari.ng',
-      'url': 'https://dayari.ng'
+      'name': 'Olubunmi Ojo',
+      'url': 'https://olubunmiojo.com'
     },
     'offers': {
       '@type': 'Offer',
@@ -31,7 +30,9 @@ export function StructuredData() {
     'aggregateRating': {
       '@type': 'AggregateRating',
       'ratingValue': '4.9',
-      'ratingCount': '3'
+      'ratingCount': '3',
+      'bestRating': '5',
+      'worstRating': '1'
     },
     'review': [
       {
@@ -86,10 +87,9 @@ export function OrganizationSchema() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    'name': 'Dayari.ng - Scale My Business',
+    'name': 'Olubunmi Ojo - Scale My Business',
     'description': 'Business coaching & digital marketing education platform',
-    'url': 'https://dayari.ng',
-    'image': 'https://dayari.ng/api/og',
+    'url': 'https://olubunmiojo.com',
     'telephone': '+2347088737006',
     'sameAs': [
       'https://instagram.com/dayari.ng',
@@ -108,7 +108,11 @@ export function OrganizationSchema() {
     'founder': {
       '@type': 'Person',
       'name': 'Olubunmi Ojo'
-    }
+    },
+    'itemListElement': [
+      { "name": "Home", "item": "https://olubunmiojo.com" },
+      { "name": "About", "item": "https://olubunmiojo.com#about" }
+    ]
   };
 
   return (

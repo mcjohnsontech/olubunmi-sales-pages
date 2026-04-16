@@ -13,38 +13,30 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Scale My Business - 3-Week Intensive with Olubunmi Ojo | Dayari.ng",
+  title: "Scale My Business - 3-Week Intensive with Olubunmi Ojo",
   description: "Transform your business from zero to consistent orders in 3 weeks. Learn proven strategies to build a profitable business, create irresistible offers, and master social & paid ads. Limited slots available.",
   keywords: ["business coaching", "entrepreneurship", "sales strategy", "digital marketing", "business growth", "Nigeria", "online business course"],
-  authors: [{ name: "Olubunmi Ojo", url: "https://dayari.ng" }],
+  authors: [{ name: "Olubunmi Ojo", url: "https://olubunmiojo.com" }],
   creator: "Olubunmi Ojo",
-  publisher: "Dayari.ng",
+  publisher: "Olubunmi Ojo",
   robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   alternates: {
-    canonical: "https://dayari.ng",
+    canonical: "https://olubunmiojo.com",
   },
   openGraph: {
     type: "website",
     locale: "en_NG",
-    url: "https://dayari.ng",
-    siteName: "Scale My Business - Dayari.ng",
+    url: "https://olubunmiojo.com",
+    siteName: "Scale My Business - Olubunmi Ojo",
     title: "Scale My Business - 3-Week Intensive | Olubunmi Ojo",
     description: "From ₦30,000 to Consistent Orders. Learn business, sales, and marketing strategies from someone who started with nothing.",
-    images: [
-      {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://dayari.ng'}/api/og`,
-        width: 1200,
-        height: 630,
-        alt: "Scale My Business - Olubunmi Ojo",
-        type: "image/svg+xml",
-      },
-    ],
+    images: [],
   },
   twitter: {
     card: "summary_large_image",
     title: "Scale My Business - 3-Week Intensive | Olubunmi Ojo",
     description: "Transform your business in 3 weeks. Limited slots available for the next cohort.",
-    images: [`${process.env.NEXT_PUBLIC_BASE_URL || 'https://dayari.ng'}/api/og`],
+    images: [],
     creator: "@dayari.ng",
   },
   icons: {
@@ -76,7 +68,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Scale My Business" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="canonical" href="https://dayari.ng" />
+        <link rel="canonical" href="https://olubunmiojo.com" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
       </head>
       <body className="min-h-full flex flex-col">{children}</body>
